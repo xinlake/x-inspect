@@ -1,0 +1,5 @@
+media
+packet
+
+*.ps1
+!vote.ps1
