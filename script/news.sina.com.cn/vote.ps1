@@ -13,7 +13,7 @@ $url_vote =
 '"http://comment5.news.sina.com.cn/cmnt/vote"'
 
 [string]$target = ""
-[int]$count = 100
+[int]$count = 0
 [int]$maxInterval = 0
 
 $target = Read-Host -Prompt "target"
@@ -21,17 +21,21 @@ if ([String]::IsNullOrEmpty($target)) {
     Exit
 }
 
-$target = $target.Replace("&mid", "&parent");
-$count = Read-Host -Prompt "count ($count)"
-$maxInterval = Read-Host -Prompt "max interval ($maxInterval, set 0 to disable)"
+$count = Read-Host -Prompt "count (100)"
+if ($count -le 0) {
+    $count = 100
+}
 
+$maxInterval = Read-Host -Prompt "max interval ($maxInterval, set 0 to disable)"
+$target = $target.Replace("&mid", "&parent");
+$data = "$target&format=js&vote=1&domain=sina.com.cn"
+    
 while ($count-- -gt 0) {
     $ip1 = Get-Random -Minimum 1 -Maximum 254
     $ip2 = Get-Random -Minimum 1 -Maximum 254
     $ip3 = Get-Random -Minimum 1 -Maximum 254
     $ip4 = Get-Random -Minimum 1 -Maximum 254
     $forwarded = "`"X-Forwarded-For: $ip1.$ip2.$ip3.$ip4`""
-    $data = "$target&format=js&vote=1&domain=sina.com.cn"
         
     [string[]] $arguments = "--silent",
     "--header", $user_agent,
