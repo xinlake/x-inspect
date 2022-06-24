@@ -29,14 +29,14 @@ if ($count -le 0) {
 $maxInterval = Read-Host -Prompt "max interval ($maxInterval, set 0 to disable)"
 $target = $target.Replace("&mid", "&parent");
 $data = "$target&format=js&vote=1&domain=sina.com.cn"
-    
+
 while ($count-- -gt 0) {
     $ip1 = Get-Random -Minimum 1 -Maximum 254
     $ip2 = Get-Random -Minimum 1 -Maximum 254
     $ip3 = Get-Random -Minimum 1 -Maximum 254
     $ip4 = Get-Random -Minimum 1 -Maximum 254
     $forwarded = "`"X-Forwarded-For: $ip1.$ip2.$ip3.$ip4`""
-        
+
     [string[]] $arguments = "--silent",
     "--header", $user_agent,
     "--header", $referer,
@@ -46,7 +46,7 @@ while ($count-- -gt 0) {
 
     Write-Host
     Start-Process -FilePath "curl.exe" -ArgumentList $arguments -NoNewWindow -Wait
-            
+
     if ($maxInterval -gt 0) {
         Write-Host
         Start-Sleep -Seconds (Get-Random -Minimum 1 -Maximum $maxInterval)
